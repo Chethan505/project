@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Employee Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .container {
+      margin-top: 40px;
+    }
+    .logout {
+      float: right;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>Employee Management System</h2>
+      <a href="/logout" class="btn btn-outline-danger">Logout</a>
+    </div>
+
+    
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="alert alert-danger">
+        <%= error %>
+      </div>
+    <% } %>
+
+    
+    <div class="card mb-4">
+      <div class="card-header">Add New Employee</div>
+      <div class="card-body">
+        <form action="/users" method="POST" class="row g-3">
+          <div class="col-md-6">
+            <input name="firstName" class="form-control" placeholder="First Name" required>
+          </div>
+          <div class="col-md-6">
+            <input name="lastName" class="form-control" placeholder="Last Name" required>
+          </div>
+          <div class="col-md-6">
+            <input name="email" type="email" class="form-control" placeholder="Email" required>
+          </div>
+          <div class="col-md-3">
+            <input name="gender" class="form-control" placeholder="Gender" required>
+          </div>
+          <div class="col-md-3">
+            <input name="company" class="form-control" placeholder="Company" required>
+          </div>
+          <div class="col-12 text-end">
+            <button type="submit" class="btn btn-primary">Add Employee</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+   
+    <div class="card">
+      <div class="card-header">Employee List</div>
+      <ul class="list-group list-group-flush">
+        <% employees.forEach(emp => { %>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <strong><%= emp.firstName %> <%= emp.lastName %></strong> |
+              <%= emp.email %> | <%= emp.gender %> | <%= emp.company%>
+            </div>
+            <div class="d-flex gap-2">
+              <a href="/users/edit/<%= emp._id %>" class="btn btn-sm btn-warning">Edit</a>
+              <form action="/users/<%= emp._id %>?_method=DELETE" method="POST">
+                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+              </form>
+            </div>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
